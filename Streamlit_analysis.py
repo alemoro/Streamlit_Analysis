@@ -171,7 +171,10 @@ if len(st.session_state.img_df) > 0:
         st.subheader('Volcano plot')
         tab1, tab2 = st.tabs(["Seaborn plot (default)", "Vega-lite plot (experimental)"])
         with tab1:
-            cmap=['#252525', '#026842', '#5E9BD1']
+            if st.session_state.groupped_data["Group"].unique() == 3:
+                cmap=['#252525', '#026842', '#5E9BD1']
+            else:
+                cmap='Set2'
             xlim = [-2, 2]
             ylim = [0, 9]
             fig_volcano = plt.figure()
