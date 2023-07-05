@@ -134,9 +134,9 @@ if len(st.session_state.img_df) > 0:
     # Get the variables names and ask the user to pick the important ones
     var_names = [var for var in img_df.keys()]
     col1, col2, col3 = st.columns(3)
-    control_group = np.array([])
-    selection_group1 = np.array([])
-    selection_group2 = np.array([])
+    control_group = []
+    selection_group1 = []
+    selection_group2 = []
     with col1:
         genotype_col = st.selectbox("Select the condition variable", np.append(["##"], var_names), index=0, key="sel_genotype")
         if genotype_col != "##":
@@ -154,9 +154,9 @@ if len(st.session_state.img_df) > 0:
             selection_group2 = st.radio("Select the grouping", options=group2, key="radio_group2", disabled= not st.session_state.multiple_group)
     
     use_df = img_df.copy()
-    if selection_group1.size > 0:
+    if group1_col != "##":
         use_df = img_df.loc[img_df[group1_col]==selection_group1,:]
-    if selection_group2.size > 0:
+    if group2_col != "##":
         use_df = use_df[(use_df[group2_col]==selection_group2)]
     st.button("Calculate the fold change", key="fold_change", on_click=calculate_fold_change, args=(use_df, genotype_col, control_group, varIdx))
 
