@@ -134,29 +134,29 @@ if len(st.session_state.img_df) > 0:
     # Get the variables names and ask the user to pick the important ones
     var_names = [var for var in img_df.keys()]
     col1, col2, col3 = st.columns(3)
-    control_group = []
-    selection_group1 = []
-    selection_group2 = []
+    control_group = np.array([])
+    selection_group1 = np.array([])
+    selection_group2 = np.array([])
     with col1:
-        genotype_col = st.selectbox("Select the condition variable", var_names, key="sel_genotype")
-        genotypes = img_df[genotype_col].unique()
-        if genotype_col != "CellID":
+        genotype_col = st.selectbox("Select the condition variable", np.append(["##"], var_names), index=0, key="sel_genotype")
+        if genotype_col != "##":
+            genotypes = img_df[genotype_col].unique()
             control_group = st.radio("Select the control condition", options=genotypes, key="radio_genotype")
     with col2:
-        group1_col = st.selectbox("Select the condition variable", var_names, key="sel_group1", disabled= not st.session_state.multiple_group)
-        if group1_col != "CellID":
+        group1_col = st.selectbox("Select the condition variable", np.append(["##"], var_names), index=0, key="sel_group1", disabled= not st.session_state.multiple_group)
+        if group1_col != "##":
             group1 = img_df[group1_col].unique()
             selection_group1 = st.radio("Select the grouping", options=group1, key="radio_group1", disabled= not st.session_state.multiple_group)
     with col3:
-        group2_col = st.selectbox("Select the condition variable", var_names, key="sel_group2", disabled= not st.session_state.multiple_group)
-        if group2_col != "CellID":
+        group2_col = st.selectbox("Select the condition variable", np.append(["##"], var_names), index=0, key="sel_group2", disabled= not st.session_state.multiple_group)
+        if group2_col != "##":
             group2 = img_df[group2_col].unique()
             selection_group2 = st.radio("Select the grouping", options=group2, key="radio_group2", disabled= not st.session_state.multiple_group)
     
     use_df = img_df.copy()
-    if len(selection_group1) != 0:
+    if selection_group1.size > 0:
         use_df = img_df.loc[img_df[group1_col]==selection_group1,:]
-    if len(selection_group2) != 0:
+    if selection_group2.size > 0:
         use_df = use_df[(use_df[group2_col]==selection_group2)]
     st.button("Calculate the fold change", key="fold_change", on_click=calculate_fold_change, args=(use_df, genotype_col, control_group, varIdx))
 
