@@ -114,8 +114,8 @@ varIdx = [8, 93]
 # Create the basic layout of the page
 st.title('FGA multidimensional data analysis')
 with st.sidebar:
-    logo = Image.open("./images/FGA_Neurospector.png")
-    st.image(logo)
+    #logo = Image.open("./images/FGA_Neurospector.png")
+    #st.image(logo)
     with st.expander("Quick start"):
         st.write('''
             This web app will giude you through the analysis of multidimensional data analysis such as for **calcium imaging** data.  
