@@ -240,16 +240,22 @@ with st.expander("Volcano plot explanation"):
     
 if len(st.session_state.groupped_data) > 0:
     tab1, tab2 = st.tabs(["Seaborn plot (default)", "Vega-lite plot (experimental)"])
+    volcano_data = st.session_state.groupped_data.copy()
+    volcano_data = volcano_data[volcano_data["Group"]!=control_group]
     with tab1:
         unique_groups = st.session_state.groupped_data["Group"].unique()
         if  len(unique_groups) == 3:
             cmap=['#252525', '#026842', '#5E9BD1']
         else:
-            cmap=['#252525', '#c7e9c0', '#4a1486', '#a1d99b', '#6a51a3', '#74c476', '#807dba', '#41ab5d', '#9e9ac8', '#238b45', '#bcbddc', '#005a32' '#dadaeb']
+            cmap=['#252525', '#006d2c', '#08519c', '#a50f15', '#54278f',
+                  '#636363', '#31a354', '#3182bd', '#de2d26', '#756bb1',
+                  '#969696', '#74c476', '#6baed6', '#fb6a4a', '#9e9ac8',
+                  '#bdbdbd', '#a1d99b', '#9ecae1', '#fc9272', '#bcbddc']
+            cmap = cmap[:len(unique_groups)]
         xlim = [-2, 2]
         ylim = [0, 9]
         fig_volcano = plt.figure()
-        sns.scatterplot(data=st.session_state.groupped_data, x='Fold Change', y='p-value', hue='Group', palette=cmap)
+        sns.scatterplot(data=volcano_data, x='Fold Change', y='p-value', hue='Group', palette=cmap[1:])
         plt.axhline(-np.log10(0.05), color='red', linestyle='dotted')
         plt.axvline(-1, color='black', linestyle='dotted')
         plt.axvline(1, color='black', linestyle='dotted')
@@ -275,7 +281,7 @@ if len(st.session_state.groupped_data) > 0:
                     "color": {"field": "Group", "type": "nominal"},
                     },
                 }
-        st.vega_lite_chart(st.session_state.groupped_data, chart, theme="streamlit", use_container_width=True)
+        st.vega_lite_chart(volcano_data, chart, theme="streamlit", use_container_width=True)
 
 
 st.subheader('LDA analysis')
