@@ -66,7 +66,7 @@ def calculate_fold_change(temp_df, genotype_col, control_group, var_idx):
     # Get the data that we want to use for the dataframe
     temp_df = temp_df.dropna()
     #var_idx = np.arange(var_idx[0], var_idx[1])
-    genotypes = img_df[genotype_col].unique()
+    genotypes = temp_df[genotype_col].unique()
     # Calculate the mean values for the control group and save it into a new dataframe
     control_mean = np.mean(temp_df[(temp_df[genotype_col] == control_group)].iloc[:,var_idx], axis=0)
     fold_df = pd.DataFrame()
@@ -223,6 +223,7 @@ if len(st.session_state.groupped_data) > 0:
     st.write(st.session_state.groupped_data)
     download_df = convert_df(st.session_state.groupped_data)
     st.download_button(label="Download data", data=download_df, file_name="NetworkAnalysis_FoldChange.csv", mime="text/csv")
+
 
 
 # Plot the data indicating the significant threshold as a dotted line
