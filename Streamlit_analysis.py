@@ -245,7 +245,7 @@ if len(st.session_state.groupped_data) > 0:
         if  len(unique_groups) == 3:
             cmap=['#252525', '#026842', '#5E9BD1']
         else:
-            cmap='Set2'
+            cmap=['#252525', '#c7e9c0', '#4a1486', '#a1d99b', '#6a51a3', '#74c476', '#807dba', '#41ab5d', '#9e9ac8', '#238b45', '#bcbddc', '#005a32' '#dadaeb']
         xlim = [-2, 2]
         ylim = [0, 9]
         fig_volcano = plt.figure()
